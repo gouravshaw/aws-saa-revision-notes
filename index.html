@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f1419" />
+  <title>AWS SAA Revision — Daily Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>AWS SAA Revision</h1>
+    <p>Quick daily revision — click a section to open sub-topics</p>
+  </header>
+
+  <main class="cards-grid">
+    <article class="card" data-topic="3">
+      <div class="card-inner">
+        <header class="card-header" tabindex="0" role="button" aria-expanded="false">
+          <span class="card-number">3</span>
+          <h2>Section 3 – Getting Started with AWS</h2>
+          <span class="card-chevron" aria-hidden="true">▼</span>
+        </header>
+        <div class="card-body">
+          <div class="block">
+            <h3>Regions & Availability Zones</h3>
+            <ul>
+              <li><strong>Region</strong> = Geographic area (e.g., eu-west-1)</li>
+              <li><strong>AZ</strong> = One or more data centers within a Region</li>
+              <li>AZs are physically separate but connected via low-latency network</li>
+            </ul>
+            <p><strong>Exam Triggers</strong></p>
+            <ul>
+              <li>Multi-AZ → Protects against AZ failure</li>
+              <li>Multi-Region → Protects against Region failure</li>
+              <li>Most services are Region-scoped</li>
+            </ul>
+          </div>
+          <section class="block highlight">
+            <h3>Global vs Regional Services</h3>
+            <p><strong>Global Services (Memorize)</strong></p>
+            <ul>
+              <li>IAM</li>
+              <li>Route 53</li>
+              <li>CloudFront</li>
+              <li>WAF</li>
+            </ul>
+            <p class="exam-trigger">Everything else → Usually Regional.</p>
+          </section>
+          <section class="block">
+            <h3>Shared Responsibility Model</h3>
+            <p><strong>AWS Responsible For:</strong></p>
+            <ul>
+              <li>Physical hardware</li>
+              <li>Data centers</li>
+              <li>Managed service infrastructure</li>
+            </ul>
+            <p><strong>Customer Responsible For:</strong></p>
+            <ul>
+              <li>IAM configuration</li>
+              <li>Security Groups</li>
+              <li>OS patching (EC2)</li>
+              <li>Application security</li>
+              <li>Data encryption configuration</li>
+            </ul>
+            <p class="exam-trigger">Exam trigger: OS patching on EC2 → Customer responsibility.</p>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <article class="card card-iam" data-topic="4">
+      <div class="card-inner">
+        <header class="card-header" tabindex="0" role="button" aria-expanded="false">
+          <span class="card-number">4</span>
+          <h2>Section 4 – IAM & AWS CLI</h2>
+          <span class="card-chevron" aria-hidden="true">▼</span>
+        </header>
+        <div class="card-body">
+          <div class="block">
+            <h3>IAM Users & Groups</h3>
+            <ul>
+              <li>Users → People</li>
+              <li>Groups → Collection of users</li>
+              <li>Groups cannot contain other groups</li>
+              <li>Users can belong to multiple groups</li>
+            </ul>
+          </div>
+          <section class="block">
+            <h3>IAM Policies</h3>
+            <p><strong>Policy Structure (Must Know)</strong></p>
+            <ul>
+              <li>Version</li>
+              <li>Statement</li>
+              <li>Effect</li>
+              <li>Action</li>
+              <li>Resource</li>
+            </ul>
+          </section>
+          <section class="block critical">
+            <h3>IAM Policy Evaluation Logic (MOST IMPORTANT)</h3>
+            <p>Evaluation Order:</p>
+            <ol class="eval-order">
+              <li>Explicit Deny → ALWAYS wins</li>
+              <li>Explicit Allow → Works if no Deny</li>
+              <li>Implicit Deny → Default</li>
+            </ol>
+            <div class="hierarchy">
+              <span>Explicit Deny</span>
+              <span class="arrow">↓</span>
+              <span>Explicit Allow</span>
+              <span class="arrow">↓</span>
+              <span>Implicit Deny</span>
+            </div>
+            <p>If any policy says <code>"Effect": "Deny"</code> → Access denied.</p>
+          </section>
+          <section class="block">
+            <h3>IAM Roles</h3>
+            <ul>
+              <li>Used by AWS services (EC2, Lambda)</li>
+              <li>Provide temporary credentials</li>
+              <li>No need to store access keys</li>
+            </ul>
+            <p><strong>EC2 Access to S3</strong></p>
+            <p><strong>Correct solution:</strong> Attach IAM Role to EC2</p>
+            <p><strong>Never</strong> store credentials on instance.</p>
+          </section>
+          <section class="block">
+            <h3>Instance Metadata</h3>
+            <p>URL: <code>169.254.169.254</code></p>
+            <ul>
+              <li>Provides temporary credentials</li>
+              <li>Used with IAM roles</li>
+            </ul>
+          </section>
+          <section class="block">
+            <h3>Root Account</h3>
+            <ul>
+              <li>Enable MFA</li>
+              <li>Do NOT create access keys</li>
+              <li>Do NOT use daily</li>
+              <li>Use IAM users instead</li>
+            </ul>
+          </section>
+          <section class="block">
+            <h3>Access Keys</h3>
+            <ul>
+              <li>Used for programmatic access</li>
+              <li>Rotate regularly</li>
+              <li>Never create for root</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-topic="5">
+      <div class="card-inner">
+        <header class="card-header" tabindex="0" role="button" aria-expanded="false">
+          <span class="card-number">5</span>
+          <h2>Section 5 – EC2 Fundamentals</h2>
+          <span class="card-chevron" aria-hidden="true">▼</span>
+        </header>
+        <div class="card-body">
+          <div class="block">
+            <h3>EC2 Instance Types</h3>
+            <p>Categories:</p>
+            <ul>
+              <li>General Purpose</li>
+              <li>Compute Optimized</li>
+              <li>Memory Optimized</li>
+              <li>Storage Optimized</li>
+            </ul>
+            <p class="exam-trigger">Exam keyword: High CPU → Compute optimized.</p>
+            <p class="exam-trigger">In-memory DB → Memory optimized.</p>
+          </div>
+          <section class="block">
+            <h3>EC2 Lifecycle</h3>
+            <p><strong>States:</strong> Pending, Running, Stopping, Stopped, Terminated</p>
+            <p><strong>Important:</strong></p>
+            <ul>
+              <li>Stop → EBS persists</li>
+              <li>Stop → Instance Store lost</li>
+              <li>Terminated → Cannot restart</li>
+            </ul>
+          </section>
+          <section class="block">
+            <h3>Security Groups</h3>
+            <ul>
+              <li>Stateful firewall</li>
+              <li>Attached to ENI</li>
+              <li>Inbound + Outbound rules</li>
+              <li>If inbound allowed → return traffic auto allowed</li>
+            </ul>
+            <p class="exam-trigger">SSH not working → Check inbound port 22.</p>
+          </section>
+          <section class="block highlight">
+            <h3>Public vs Private EC2</h3>
+            <p><strong>Public EC2 requires:</strong></p>
+            <ul>
+              <li>Internet Gateway attached</li>
+              <li>Route table 0.0.0.0/0 → IGW</li>
+              <li>Public subnet</li>
+              <li>Public IP</li>
+              <li>Security Group allowing inbound</li>
+            </ul>
+            <p class="muted">Missing one → No internet access.</p>
+          </section>
+          <section class="block">
+            <h3>Elastic IP</h3>
+            <ul>
+              <li>Static public IP</li>
+              <li>Survives stop/start</li>
+              <li>Region-scoped</li>
+              <li>Charged if unused</li>
+              <li>Limited per region</li>
+            </ul>
+          </section>
+          <section class="block">
+            <h3>Purchasing Options</h3>
+            <table class="notes-table">
+              <thead>
+                <tr><th>Type</th><th>Use Case</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>On-Demand</td><td>Short-term</td></tr>
+                <tr><td>Reserved</td><td>Long-term steady</td></tr>
+                <tr><td>Spot</td><td>Interruptible</td></tr>
+                <tr><td>Dedicated Host</td><td>Compliance</td></tr>
+              </tbody>
+            </table>
+            <p class="exam-trigger">Steady 3-year workload → Reserved.</p>
+            <p class="exam-trigger">Spot interruption → 2-minute notice.</p>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-topic="6">
+      <div class="card-inner">
+        <header class="card-header" tabindex="0" role="button" aria-expanded="false">
+          <span class="card-number">6</span>
+          <h2>Section 6 – EC2 (Solutions Architect Level)</h2>
+          <span class="card-chevron" aria-hidden="true">▼</span>
+        </header>
+        <div class="card-body">
+          <div class="block">
+            <h3>Placement Groups</h3>
+            <ul class="placement-list">
+              <li><strong>Cluster</strong> — Same AZ. Low latency. HPC workloads.</li>
+              <li><strong>Spread</strong> — Max 7 instances per AZ. Reduces hardware failure risk.</li>
+              <li><strong>Partition</strong> — Large distributed systems.</li>
+            </ul>
+            <p class="exam-trigger">Exam trigger: Low latency → Cluster.</p>
+          </div>
+          <section class="block">
+            <h3>Elastic Network Interface (ENI)</h3>
+            <ul>
+              <li>Has private IP</li>
+              <li>Can attach/detach</li>
+              <li>Can have multiple IPs</li>
+              <li>Security groups attached to ENI</li>
+            </ul>
+            <p class="exam-trigger">Exam trigger: Move network identity → Use ENI.</p>
+          </section>
+          <section class="block">
+            <h3>EC2 Hibernate</h3>
+            <ul>
+              <li>Saves RAM to EBS</li>
+              <li>Faster restart</li>
+              <li>Root volume must be EBS</li>
+              <li>Supported only on certain instance types</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" data-topic="7">
+      <div class="card-inner">
+        <header class="card-header" tabindex="0" role="button" aria-expanded="false">
+          <span class="card-number">7</span>
+          <h2>Section 7 – EC2 Instance Storage</h2>
+          <span class="card-chevron" aria-hidden="true">▼</span>
+        </header>
+        <div class="card-body">
+          <div class="block">
+            <h3>Amazon EBS</h3>
+            <ul>
+              <li>Block storage</li>
+              <li>AZ-scoped</li>
+              <li>Persist after stop</li>
+              <li>Network attached</li>
+            </ul>
+          </div>
+          <section class="block">
+            <h3>EBS Volume Types</h3>
+            <table class="notes-table">
+              <thead>
+                <tr><th>Type</th><th>Use</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>gp2/gp3</td><td>General purpose</td></tr>
+                <tr><td>io1/io2</td><td>High IOPS</td></tr>
+                <tr><td>st1</td><td>Throughput HDD</td></tr>
+                <tr><td>sc1</td><td>Cold HDD</td></tr>
+              </tbody>
+            </table>
+            <p class="exam-trigger">Multi-Attach → io1/io2 only.</p>
+          </section>
+          <section class="block">
+            <h3>Snapshots</h3>
+            <ul>
+              <li>Stored in S3</li>
+              <li>Region-scoped</li>
+              <li>Incremental</li>
+              <li>Can create volume in any AZ in same region</li>
+              <li>Inherit encryption</li>
+            </ul>
+            <p class="highlight-text">Remember: EBS → AZ. Snapshot → Region.</p>
+          </section>
+          <section class="block">
+            <h3>EBS Encryption</h3>
+            <ul>
+              <li>Uses KMS</li>
+              <li>Snapshots inherit encryption</li>
+              <li>Can enable encryption by default</li>
+            </ul>
+          </section>
+          <section class="block">
+            <h3>Delete-on-Termination</h3>
+            <p>Root EBS deleted by default. Can modify setting.</p>
+          </section>
+          <section class="block">
+            <h3>AMI</h3>
+            <p>Template for EC2. Includes OS + configuration. Can copy across Regions.</p>
+            <p class="exam-trigger">Exam trigger: Deploy identical setup in new region → Copy AMI.</p>
+          </section>
+          <section class="block">
+            <h3>Instance Store</h3>
+            <ul>
+              <li>Ephemeral storage</li>
+              <li>Lost on stop/terminate</li>
+              <li>Very high performance</li>
+              <li>Used for cache/temp data</li>
+            </ul>
+            <p class="exam-trigger">Keyword: Lost on stop → Instance Store.</p>
+          </section>
+          <section class="block">
+            <h3>Amazon EFS</h3>
+            <ul>
+              <li>File storage (NFS)</li>
+              <li>Multi-AZ</li>
+              <li>Shared across instances</li>
+              <li>Automatically scales</li>
+            </ul>
+            <p class="exam-trigger">Keyword: Shared storage → EFS.</p>
+          </section>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <div class="topic-detail" id="topic-detail" aria-hidden="true">
+    <div class="topic-detail-backdrop"></div>
+    <div class="topic-detail-inner">
+      <button type="button" class="topic-detail-close" aria-label="Back to topics">← Back to topics</button>
+      <div class="topic-detail-card flip-card">
+        <div class="flip-card-inner">
+          <div class="topic-detail-content">
+            <header class="topic-detail-header">
+              <span class="topic-detail-number" id="detail-number"></span>
+              <h2 class="topic-detail-title" id="detail-title"></h2>
+            </header>
+            <div class="topic-detail-body" id="detail-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
