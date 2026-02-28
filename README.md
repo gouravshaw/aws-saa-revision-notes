@@ -41,18 +41,13 @@ This is a small, static web app to help you quickly revise for the **AWS Certifi
 
 This is a pure static site – no build step is required.
 
-From the project root:
+From the project directory, run:
 
 ```bash
-cd /home/fatman/Desktop/my_projects/aws-saa-revision-notes
 python3 -m http.server 8080
 ```
 
-Then open:
-
-```text
-http://localhost:8080
-```
+Then open **http://localhost:8080** in your browser.
 
 ### How to use for daily revision
 
